@@ -16,6 +16,8 @@
 //
 include { CHECK_PAIRED                } from '../modules/local/check_paired'
 
+include { paramsSummaryMultiqc        } from '../subworkflows/nf-core/utils_nfcore_pipeline'
+include { softwareVersionsToYAML      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { methodsDescriptionText      } from '../subworkflows/local/utils_nfcore_hlatyping_pipeline'
 
 /*
@@ -37,10 +39,6 @@ include { YARA_INDEX                  } from '../modules/nf-core/yara/index/main
 include { YARA_MAPPER                 } from '../modules/nf-core/yara/mapper/main'
 
 include { paramsSummaryMap            } from 'plugin/nf-schema'
-
-include { paramsSummaryMultiqc        } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { softwareVersionsToYAML      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
-include { methodsDescriptionText      } from '../subworkflows/local/utils_nfcore_hlatyping_pipeline'
 
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
