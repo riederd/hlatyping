@@ -10,7 +10,7 @@ The directories listed below will be created in the results directory after the 
 
 The pipeline is built using [Nextflow](https://www.nextflow.io/) and processes data using the following steps:
 
-- [cat](#cat) - Merge re-sequenced FastQ files
+- [cat](#cat) - Merge FastQ files
 - [FastQC](#fastqc) - Raw read QC
 - [OptiType](#optitype) - HLA genotyping based on integer linear programming
 - [MultiQC](#multiqc) - Aggregate report describing results from the whole pipeline
