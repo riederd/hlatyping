@@ -31,7 +31,7 @@ On release, automated continuous integration tests run the pipeline on a full-si
 <!-- TODO nf-core: Include a figure that guides the user through the major workflow steps. Many nf-core
      workflows use the "tube map" design for that. See https://nf-co.re/docs/contributing/design_guidelines#examples for examples.   -->
 
-1. Merge re-sequenced FastQ files ([`cat`](http://www.linfo.org/cat.html))
+1. Merge FastQ files ([`cat`](http://www.linfo.org/cat.html))
 2. Read QC ([`FastQC`](https://www.bioinformatics.babraham.ac.uk/projects/fastqc/))
 3. Generate reference indices ([`yara`](https://www.seqan.de/apps/yara.html))
 4. Map reads to reference ([`yara`](https://www.seqan.de/apps/yara.html))
