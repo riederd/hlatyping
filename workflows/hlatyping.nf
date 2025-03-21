@@ -60,8 +60,10 @@ workflow HLATYPING {
     ch_samplesheet
         .branch { meta, files ->
             bam : files[0].getExtension() == "bam"
-            fastq_single : files.size() == 1
-            fastq_multiple : files.size() > 1
+            fastq_multiple :
+                (meta.single_end && files.size() > 1) ||
+                (!meta.single_end && files.size() > 2)
+            fastq_single : true
         }
         .set { ch_input_files }
 
