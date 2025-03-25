@@ -3,5 +3,7 @@
 channels:
   - conda-forge
   - bioconda
+
 dependencies:
-  - bioconda::multiqc=1.27
+  - bioconda::samtools=1.16.1
+  - bioconda::yara=1.0.2

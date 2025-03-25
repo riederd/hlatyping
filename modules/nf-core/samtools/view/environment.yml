@@ -4,4 +4,6 @@ channels:
   - conda-forge
   - bioconda
 dependencies:
-  - bioconda::multiqc=1.27
+  # renovate: datasource=conda depName=bioconda/htslib
+  - bioconda::htslib=1.21
+  - bioconda::samtools=1.21
