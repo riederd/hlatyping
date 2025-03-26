@@ -75,31 +75,29 @@ workflow HLATYPING {
     ch_versions = ch_versions.mix(CHECK_PAIRED.out.versions)
 
 
+    //  paired-end reads should not be interleaved
+    def interleave = false
+
     //
     // MODULE: Run COLLATEFASTQ
     //
     SAMTOOLS_COLLATEFASTQ (
-        ch_bam_pe_corrected
+        ch_bam_pe_corrected,
+        ch_bam_pe_corrected.map{ it ->                                         // meta, fasta
+            def new_id = ""
+            if(it) {
+                new_id = it[0].baseName
+            }
+            [[id:new_id], []] },
+        interleave
     )
     ch_versions = ch_versions.mix(SAMTOOLS_COLLATEFASTQ.out.versions)
 
+    ch_fastq = SAMTOOLS_COLLATEFASTQ.out.fastq
 
-    //
-    // Filter for reads depending on pairedness
-    //
-    SAMTOOLS_COLLATEFASTQ.out.reads
-        .map { meta, reads, reads_other, reads_singleton ->
-            if (meta.single_end) {
-                [ meta, reads_other ]
-            }
-            else {
-                [meta, reads]
-            }
-        }
-        .set { ch_filtered_bam2fq }
 
     ch_input_files.fastq
-        .mix(ch_filtered_bam2fq)
+        .mix( ch_fastq )
         .map { meta, reads ->
                 [ meta, file("$projectDir/data/references/hla_reference_${meta['seq_type']}.fasta") ]
         }
@@ -111,7 +109,7 @@ workflow HLATYPING {
     //
     FASTQC (
         ch_input_files.fastq
-        .mix(ch_filtered_bam2fq)
+        .mix(ch_fastq)
     )
     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
@@ -130,7 +128,7 @@ workflow HLATYPING {
     // Map sample-specific reads and index
     //
     ch_input_files.fastq
-        .mix(ch_filtered_bam2fq)
+        .mix(ch_fastq)
         .cross(YARA_INDEX.out.index)
         .multiMap { reads, index ->
             reads: reads
