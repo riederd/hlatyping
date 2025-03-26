@@ -75,7 +75,7 @@ workflow HLATYPING {
     ch_versions = ch_versions.mix(CHECK_PAIRED.out.versions)
 
 
-    // MODULE: SINGLE-END Alignment to FastQ (SortExtractSingleEnd)
+    //  paired-end reads should not be interleaved
     def interleave = false
 
     //
