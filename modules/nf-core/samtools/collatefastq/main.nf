@@ -1,5 +1,4 @@
 process SAMTOOLS_COLLATEFASTQ {
-    debug true
     tag "$meta.id"
     label 'process_low'
 
@@ -33,8 +32,6 @@ process SAMTOOLS_COLLATEFASTQ {
                     "-1 ${prefix}_1.fq.gz -2 ${prefix}_2.fq.gz -s ${prefix}_singleton.fq.gz"
 
     """
-    echo $reference
-    
     samtools collate \\
         $args \\
         --threads $task.cpus \\
