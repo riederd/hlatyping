@@ -71,7 +71,6 @@ workflow HLATYPING {
     // MODULE: Concatenate FastQ files from same sample if required
     //
     CAT_FASTQ(ch_input_files.fastq_multiple).reads
-    .mix(ch_input_files.fastq_single)
     .set { ch_cat_fastq }
     ch_versions = ch_versions.mix(CAT_FASTQ.out.versions.first().ifEmpty(null))
 
@@ -105,7 +104,7 @@ workflow HLATYPING {
     SAMTOOLS_COLLATEFASTQ.out.fastq.set { ch_bam_fastq }
     ch_versions = ch_versions.mix(SAMTOOLS_COLLATEFASTQ.out.versions)
 
-    ch_input_files.fastq
+    ch_input_files.fastq_single
         .mix( ch_cat_fastq, ch_bam_fastq )
         .set{ ch_all_fastq }
 
