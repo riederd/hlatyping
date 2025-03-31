@@ -72,7 +72,7 @@ workflow HLATYPING {
     //
     CAT_FASTQ(ch_input_files.fastq_multiple).reads
     .set { ch_cat_fastq }
-    ch_versions = ch_versions.mix(CAT_FASTQ.out.versions.first().ifEmpty(null))
+    ch_versions = ch_versions.mix(CAT_FASTQ.out.versions.first())
 
     // determine BAM pairedness for fastq conversion
     CHECK_PAIRED (ch_input_files.bam )
