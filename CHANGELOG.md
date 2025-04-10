@@ -6,6 +6,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## 2.1.0 - Patch Release - 2025-11-04
 
 ### `Added`
+
 - [#169](https://github.com/nf-core/hlatyping/pull/169) - Parameter `enumerations` to specify the number of solutions provided by Optitype
 
 ### `Changed`

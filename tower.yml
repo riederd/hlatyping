@@ -5,4 +5,3 @@ reports:
     display: "Optitype Coverage Plot"
   "optitype/*/*_results.tsv":
     display: "Optitype Results"
-  
