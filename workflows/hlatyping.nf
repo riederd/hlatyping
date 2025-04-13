@@ -29,6 +29,7 @@ include { methodsDescriptionText      } from '../subworkflows/local/utils_nfcore
 //
 // MODULE: Installed directly from nf-core/modules
 //
+include { CAT_FASTQ                   } from '../modules/nf-core/cat/fastq'
 include { FASTQC                      } from '../modules/nf-core/fastqc/main'
 include { MULTIQC                     } from '../modules/nf-core/multiqc/main'
 include { GUNZIP                      } from '../modules/nf-core/gunzip/main'
@@ -59,10 +60,19 @@ workflow HLATYPING {
     ch_samplesheet
         .branch { meta, files ->
             bam : files[0].getExtension() == "bam"
-            fastq : true
+            fastq_multiple :
+                (meta.single_end && files.size() > 1) ||
+                (!meta.single_end && files.size() > 2)
+            fastq_single : true
         }
         .set { ch_input_files }
 
+    //
+    // MODULE: Concatenate FastQ files from same sample if required
+    //
+    CAT_FASTQ(ch_input_files.fastq_multiple).reads
+    .set { ch_cat_fastq }
+    ch_versions = ch_versions.mix(CAT_FASTQ.out.versions.first())
 
     // determine BAM pairedness for fastq conversion
     CHECK_PAIRED (ch_input_files.bam )
@@ -91,25 +101,24 @@ workflow HLATYPING {
             [[id:new_id], []] },
         interleave
     )
+    SAMTOOLS_COLLATEFASTQ.out.fastq.set { ch_bam_fastq }
     ch_versions = ch_versions.mix(SAMTOOLS_COLLATEFASTQ.out.versions)
 
-    ch_fastq = SAMTOOLS_COLLATEFASTQ.out.fastq
+    ch_input_files.fastq_single
+        .mix( ch_cat_fastq, ch_bam_fastq )
+        .set{ ch_all_fastq }
 
-
-    ch_input_files.fastq
-        .mix( ch_fastq )
+    ch_all_fastq
         .map { meta, reads ->
                 [ meta, file("$projectDir/data/references/hla_reference_${meta['seq_type']}.fasta") ]
         }
         .set { ch_input_with_references }
 
-
     //
     // MODULE: Run FastQC
     //
     FASTQC (
-        ch_input_files.fastq
-        .mix(ch_fastq)
+        ch_all_fastq
     )
     ch_multiqc_files = ch_multiqc_files.mix(FASTQC.out.zip.collect{it[1]})
     ch_versions = ch_versions.mix(FASTQC.out.versions.first())
@@ -127,8 +136,7 @@ workflow HLATYPING {
     //
     // Map sample-specific reads and index
     //
-    ch_input_files.fastq
-        .mix(ch_fastq)
+    ch_all_fastq
         .cross(YARA_INDEX.out.index)
         .multiMap { reads, index ->
             reads: reads
@@ -224,5 +232,4 @@ workflow HLATYPING {
 /*
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
     THE END
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */

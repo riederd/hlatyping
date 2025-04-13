@@ -154,6 +154,7 @@ workflow PIPELINE_COMPLETION {
     FUNCTIONS
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 */
+
 //
 // Check and validate pipeline parameters
 //
@@ -171,6 +172,33 @@ def validateInputSamplesheet(input) {
     def endedness_ok = metas.collect{ meta -> meta.single_end }.unique().size == 1
     if (!endedness_ok) {
         error("Please check input samplesheet -> Multiple runs of a sample must be of the same datatype i.e. single-end or paired-end: ${metas[0].id}")
+    }
+
+    seq_type_ok = metas.collect{ it.seq_type }.unique().size == 1
+    if (!seq_type_ok) {
+        error(
+            "Check input samplesheet -> Multiple runs of the same "
+            + "sample must have the same sequence type: ${metas[0].id}"
+        )
+    }
+
+    data_type_ok = metas.collect{ it.data_type }.unique().size == 1
+    if (!data_type_ok) {
+        error(
+            "Check input samplesheet -> Multiple runs of the same "
+            + "sample must have the same data type (fastq only, bam "
+            + "concatenation not currently supported): ${metas[0].id}"
+        )
+    }
+
+    if (metas.collect{ it.data_type }.unique() == "bam") {
+        bam_count_ok = metas.collect{ it.data_type }.size == 1
+        if(!bam_count_ok) {
+            error(
+                "Check input samplesheet -> Multiple runs of the same "
+                + "bam sample is not currently supported: ${metas[0].id}"
+            )
+        }
     }
 
     return [ metas[0], fastqs ]
