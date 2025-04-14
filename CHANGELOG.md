@@ -8,6 +8,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### `Added`
 
 - [#169](https://github.com/nf-core/hlatyping/pull/169) - Parameter `enumerations` to specify the number of solutions provided by Optitype
+- [#179](https://github.com/nf-core/hlatyping/pull/179) - Add merging of resequenced fastq files
 
 ### `Changed`
 
