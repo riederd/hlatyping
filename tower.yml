@@ -1,0 +1,7 @@
+reports:
+  "multiqc/multiqc_report.html":
+    display: "MultiQC HTML report"
+  "optitype/*/*_coverage_plot.pdf":
+    display: "Optitype Coverage Plot"
+  "optitype/*/*_results.tsv":
+    display: "Optitype Results"

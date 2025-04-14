@@ -1,1 +1,11 @@
+nf_core_version: 3.2.0
 repository_type: pipeline
+template:
+  author: Christopher Mohr, Alexander Peltzer, Sven Fillinger
+  description: Precision HLA typing from next-generation sequencing data.
+  force: false
+  is_nfcore: true
+  name: hlatyping
+  org: nf-core
+  outdir: .
+  version: 2.1.0dev
