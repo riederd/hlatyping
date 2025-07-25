@@ -3,6 +3,15 @@
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/)
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## 2.2.0dev - [release-name] - [date]
+
+### `Dependencies`
+
+| Dependency | Old version | New version |
+| ---------- | ----------- | ----------- |
+| `MultiQC`  | 1.27.0      | 1.30.0      |
+| `Nf-core`  | 3.2.0       | 3.3.2       |
+
 ## 2.1.0 - Patch Release - 2025-11-04
 
 ### `Added`
