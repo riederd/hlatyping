@@ -16,7 +16,7 @@
                     "samtools": 1.21
                 },
                 "Workflow": {
-                    "nf-core/hlatyping": "v2.1.0dev"
+                    "nf-core/hlatyping": "v2.2.0dev"
                 },
                 "YARA_INDEX": {
                     "yara": "1.0.2"
@@ -129,31 +129,10 @@
             [
                 "example_pe.bam:md5,e6145c17fef62ea071238f8b0aca841c",
                 "is_singleend.txt:md5,d42f2da1df5ecdf29be4ac27edda0c12",
-                "fastqc-status-check-heatmap.txt:md5,6a7a699a7584b340ccc646a2540c4409",
-                "fastqc_adapter_content_plot.txt:md5,191c5f7208ca458a30018808c11294b6",
-                "fastqc_per_base_n_content_plot.txt:md5,6253a59d4d98179c70cbe805a72976b1",
-                "fastqc_per_base_sequence_quality_plot.txt:md5,b0b4ebc1dd5c0a5163b97779e991918c",
-                "fastqc_per_sequence_gc_content_plot_Counts.txt:md5,6314bbba4f2ea24d034dc2b65fe16804",
-                "fastqc_per_sequence_gc_content_plot_Percentages.txt:md5,93dbf49835bcd31b9e99b51729f9fe51",
-                "fastqc_per_sequence_quality_scores_plot.txt:md5,aefc6b064f1f4be683b0aca1628c9301",
-                "fastqc_sequence_counts_plot.txt:md5,9783e716cb5e0d1b4537dba103d296c3",
-                "fastqc_sequence_duplication_levels_plot.txt:md5,b6d02e4d48243c5d6241d26c0f871cf9",
-                "llms-full.txt:md5,fcb69df291ad76935b5f572c94ca9da3",
-                "multiqc_citations.txt:md5,09b0519e41ad4d5e3b6f68fd587a7d05",
-                "multiqc_fastqc.txt:md5,235cd3e3b838877ca01fe901d52b66a2",
-                "multiqc_general_stats.txt:md5,a8dadae3908ad098df5cab7987423359",
-                "multiqc_optitype.txt:md5,0f3c85ef9bef4d2843b0ea11ebe27575",
-                "optitype_summary_plot.txt:md5,3c64418206a774a159db8cdf37582894",
-                "SAMPLE_PAIRED_END_BAM_coverage_plot.pdf:md5,9dc4f49615c1fbaac135ae874129cc5d",
-                "SAMPLE_PAIRED_END_BAM_result.tsv:md5,9327fcf335e64df6bc8469fed7619139",
                 "SAMPLE_PAIRED_END_BAM_1.fq.gz:md5,361598a72f419e19c4de108267fa330c",
                 "SAMPLE_PAIRED_END_BAM_2.fq.gz:md5,45854c8203e7b26e0e2904c2f2dd6d3f",
                 "SAMPLE_PAIRED_END_BAM_other.fq.gz:md5,d41d8cd98f00b204e9800998ecf8427e",
                 "SAMPLE_PAIRED_END_BAM_singleton.fq.gz:md5,fc978e9e59035f8f1739edf71c648796",
-                "SAMPLE_PAIRED_END_BAM_1.mapped.bam:md5,04b8b9d1c2448cc28109a2f4d4f9a364",
-                "SAMPLE_PAIRED_END_BAM_1.mapped.bam.bai:md5,fa66c7a66f895542480d782cb5a54611",
-                "SAMPLE_PAIRED_END_BAM_2.mapped.bam:md5,4369608c7e720504dd12092f73c621dc",
-                "SAMPLE_PAIRED_END_BAM_2.mapped.bam.bai:md5,5c9e3d67ca845a3d51883a9bbbd2197b",
                 "versions.yml:md5,3d67d5a34bf0044c6567763154ac1719",
                 "hla_reference_dna.fasta.lf.drp:md5,28d863bdb814bccb8212a7b451e2af0a",
                 "hla_reference_dna.fasta.lf.drs:md5,8666683506aacd900bbd5a74ac4edf68",
@@ -173,6 +152,6 @@
             "nf-test": "0.9.2",
             "nextflow": "25.04.6"
         },
-        "timestamp": "2025-07-24T15:13:10.946711625"
+        "timestamp": "2025-07-28T07:54:34.704403633"
     }
 }
