@@ -14,7 +14,8 @@
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { CHECK_PAIRED                } from '../modules/local/check_paired'
+include { CHECK_PAIRED } from '../modules/local/check_paired'
+include { HLAHD        } from '../modules/local/hlahd'
 
 include { paramsSummaryMultiqc        } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -160,6 +161,15 @@ workflow HLATYPING {
     )
     ch_versions = ch_versions.mix(YARA_MAPPER.out.versions)
 
+    //
+    // MODULE: Run HLAHD typing
+    //
+    if (params.run_hlahd) {
+        HLAHD(
+            ch_mapping_input.reads
+        )
+        ch_versions = ch_versions.mix(HLAHD.out.versions)
+    }
 
     //
     // MODULE: OptiType

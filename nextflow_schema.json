@@ -73,6 +73,29 @@
                 }
             }
         },
+        "hlahd_options": {
+            "title": "HLA-HD options",
+            "type": "object",
+            "description": "Options for running HLA-HD for class II HLA typing.",
+            "default": "",
+            "fa_icon": "fas fa-cog",
+            "properties": {
+                "run_hlahd": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-check",
+                    "description": "Run HLA-HD for class II HLA typing. Note: A local installation of HLA-HD is required.",
+                    "help_text": "By default, HLA-HD is not run. To enable HLA-HD for class II HLA typing, set this parameter to `true`. A local installation of HLA-HD is required. To get a licensed copy see https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/"
+                },
+                "hlahd_directory": {
+                    "type": "string",
+                    "default": "/usr/local/hlahd",
+                    "fa_icon": "fas fa-folder",
+                    "description": "Local installation directory of HLA-HD",
+                    "help_text": "Path to the local installation directory of HLA-HD. Make sure that the directory contains the `bin` folder with the HLA-HD executable and the required reference files and directories`freq_data`, `splitHLA_gene.split.3.50.0.txt` and `dictionary.txt`."
+                }
+            }
+        },
         "reference_genome_options": {
             "title": "Reference genome options",
             "type": "object",
@@ -267,6 +290,9 @@
         },
         {
             "$ref": "#/$defs/optitype_optimisation_steps"
+        },
+        {
+            "$ref": "#/$defs/hlahd_options"
         },
         {
             "$ref": "#/$defs/reference_genome_options"
