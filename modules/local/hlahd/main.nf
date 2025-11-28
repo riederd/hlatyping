@@ -33,9 +33,6 @@ process HLAHD {
     }
     """
     export PATH=\$PATH:${hlahd_p}
-
-    mkdir -p ${prefix}_output
-
     hlahd.sh \\
         -t ${task.cpus} \\
         ${args} \\
@@ -48,7 +45,7 @@ process HLAHD {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        hlahd: \$(echo \$(hlahd.sh 2>&1 | sed -n 's/.*version [0-9.]*.*/\1/p'))
+        hlahd: \$(echo \$(hlahd.sh 2>&1 | sed -n 's/.*version \\([0-9.]*\\).*/\\1/p'))
     END_VERSIONS
 
     """
@@ -67,7 +64,7 @@ process HLAHD {
 
     cat <<-END_VERSIONS > versions.yml
     "${task.process}":
-        hlahd: \$(echo \$(hlahd.sh 2>&1 | sed -n 's/.*version [0-9.]*.*/\1/p'))
+        hlahd: \$(echo \$(hlahd.sh 2>&1 | sed -n 's/.*version \\([0-9.]*\\).*/\\1/p'))
     END_VERSIONS
 
     """
