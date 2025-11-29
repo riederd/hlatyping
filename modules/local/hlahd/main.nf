@@ -7,7 +7,7 @@ process HLAHD {
         ? 'https://community-cr-prod.seqera.io/docker/registry/v2/blobs/sha256/b4/b41b403e81883126c3227fc45840015538e8e2212f13abc9ae84e4b98891d51c/data'
         : 'community.wave.seqera.io/library/bowtie2_htslib_samtools_pigz:edeb13799090a2a6'}"
 
-    containerOptions "${task.ext.containerOptions ?: ''}"
+    containerOptions "${workflow.containerEngine == 'singularity' && task.ext.containerOptions ? "--bind ${task.ext.containerOptions}" : "--volumes ${task.ext.containerOptions}"}"
 
     input:
     tuple val(meta), path(reads)
