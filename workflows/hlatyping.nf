@@ -165,10 +165,15 @@ workflow HLATYPING {
     // MODULE: Run HLAHD typing
     //
     if (params.run_hlahd) {
-        HLAHD(
-            ch_mapping_input.reads
-        )
-        ch_versions = ch_versions.mix(HLAHD.out.versions)
+        if (! file(params.hlahd_directory).isDirectory()) {
+            log.warn("The specified HLAHD installation directory does not exist: ${params.hlahd_directory}")
+            log.warn("Skipping HLAHD typing")
+        } else {
+            HLAHD(
+                ch_mapping_input.reads
+            )
+            ch_versions = ch_versions.mix(HLAHD.out.versions)
+        }
     }
 
     //
