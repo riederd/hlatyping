@@ -1,76 +1,49 @@
 # yaml-language-server: $schema=https://raw.githubusercontent.com/nf-core/modules/master/modules/meta-schema.json
-# # TODO nf-core: Add a description of the module and list keywords
 name: "hlahd"
-description: write your description here
+description: HLA-HD is a tool for HLA typing from NGS data
 keywords:
-  - sort
-  - example
+  - hla
+  - typing
   - genomics
+  - ngs
 tools:
-  ## TODO nf-core: Add a description and other details for the software below
   - "hlahd":
-      description: ""
-      homepage: ""
-      documentation: ""
-      tool_dev_url: ""
-      doi: ""
-      licence: null
-      identifier: null
+      description: "HLA-HD: HLA typing from High-quality Dictionary"
+      homepage: "https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/"
+      documentation: "https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/"
+      tool_dev_url: "https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/"
+      doi: "doi: 10.1002/humu.23230"
+      licence: ["Proprietary"]
+      identifier: ""
 
 input:
-  ### TODO nf-core: Add a description of all of the variables used as input
   - - meta:
         type: map
         description: |
           Groovy Map containing sample information
           e.g. `[ id:'sample1' ]`
-    - bam:
+    - reads:
         type: file
-        description: Sorted BAM/CRAM/SAM file
-        pattern: "*.{bam,cram,sam}"
-        ontologies:
-          - edam: "http://edamontology.org/format_2572" # BAM
-          - edam: "http://edamontology.org/format_2573" # CRAM
-          - edam: "http://edamontology.org/format_3462" # SAM
+        description: List of input FastQ files of size 1 and 2 for single-end and paired-end data, respectively.
+        pattern: "*.{fastq.gz,fq.gz}"
 
 output:
-  ### TODO nf-core: Add a description of all of the variables used as output
-  bam:
-    - - meta:
+  - result:
+      - meta:
           type: map
           description: |
             Groovy Map containing sample information
             e.g. `[ id:'sample1' ]`
-      - "*.bam":
+      - "*_final.result.txt":
           type: file
-          description: Sorted BAM/CRAM/SAM file
-          pattern: "*.{bam,cram,sam}"
-          ontologies:
-            - edam: "http://edamontology.org/format_2572" # BAM
-            - edam: "http://edamontology.org/format_2573" # CRAM
-            - edam: "http://edamontology.org/format_3462" # SAM
-  versions_hlahd:
-    - - "${task.process}":
-          type: string
-          description: The name of the process
-      - "hlahd":
-          type: string
-          description: The name of the tool
-      - "hlahd --version":
-          type: eval
-          description: The expression to obtain the version of the tool
+          description: Final HLA typing result file
+          pattern: "*_final.result.txt"
+  - versions:
+      - versions.yml:
+          type: file
+          description: File containing software versions
+          pattern: "versions.yml"
 
-topics:
-  versions:
-    - - ${task.process}:
-          type: string
-          description: The name of the process
-      - hlahd:
-          type: string
-          description: The name of the tool
-      - hlahd --version:
-          type: eval
-          description: The expression to obtain the version of the tool
 authors:
   - "@riederd"
 maintainers:
