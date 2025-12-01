@@ -14,8 +14,9 @@
 //
 // SUBWORKFLOW: Consisting of a mix of local and nf-core/modules
 //
-include { CHECK_PAIRED } from '../modules/local/check_paired'
-include { HLAHD        } from '../modules/local/hlahd'
+include { CHECK_PAIRED                } from '../modules/local/check_paired'
+include { HLAHD_INSTALL               } from '../modules/local/hlahd/install'
+include { HLAHD                       } from '../modules/local/hlahd/genotype'
 
 include { paramsSummaryMultiqc        } from '../subworkflows/nf-core/utils_nfcore_pipeline'
 include { softwareVersionsToYAML      } from '../subworkflows/nf-core/utils_nfcore_pipeline'
@@ -53,6 +54,9 @@ workflow HLATYPING {
     take:
     ch_samplesheet // channel: samplesheet read in from --input
     main:
+
+    // HLAHD software metadata JSON file
+    hlahd_software_meta   = file("$projectDir/assets/hlahd_software_meta.json", checkIfExists: true)
 
     ch_versions = Channel.empty()
     ch_multiqc_files = Channel.empty()
@@ -165,12 +169,16 @@ workflow HLATYPING {
     // MODULE: Run HLAHD typing
     //
     if (params.run_hlahd) {
-        if (! file(params.hlahd_directory).isDirectory()) {
-            log.warn("The specified HLAHD installation directory does not exist: ${params.hlahd_directory}")
+        if (! file(params.hlahd_path).exists()) {
+            log.warn("The specified HLAHD package archive does not exist: ${params.hlahd_path}")
+            log.warn("Please download HLAHD from https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/ and provide the path to the tarball via the '--hlahd_path' parameter.")
             log.warn("Skipping HLAHD typing")
         } else {
+            HLAHD_INSTALL (
+                parse_hlahd_software_meta(hlahd_software_meta)
+            )
             HLAHD(
-                ch_mapping_input.reads
+                ch_mapping_input.reads.combine(HLAHD_INSTALL.out.hlahd)
             )
             ch_versions = ch_versions.mix(HLAHD.out.versions)
         }
@@ -242,6 +250,30 @@ workflow HLATYPING {
     emit:multiqc_report = MULTIQC.out.report.toList() // channel: /path/to/multiqc_report.html
     versions       = ch_versions                 // channel: [ path(versions.yml) ]
 
+}
+
+
+//
+// Auxiliary functions
+//
+
+// Parse hlahd software metadata JSON file and create channel for installation
+def parse_hlahd_software_meta(hlahd_software_meta) {
+    // Import mandatory hlahd metadata
+    def jsonSlurper = new groovy.json.JsonSlurper()
+    def hlahd_software_meta_map = jsonSlurper.parse(hlahd_software_meta)
+    def entry = hlahd_software_meta_map['hlahd']
+
+    // Add the tool name and user installation path to the hlahd install channel
+    ch_hlahd_exe = Channel.empty()
+    ch_hlahd_exe.bind([
+        'hlahd',
+        entry.version,
+        entry.software_md5,
+        file(params.hlahd_path, checkIfExists:true),
+        params.hlahd_update_dictionary,
+    ])
+    return ch_hlahd_exe
 }
 
 /*

@@ -87,12 +87,19 @@
                     "description": "Run HLA-HD for class II HLA typing. Note: A local installation of HLA-HD is required.",
                     "help_text": "By default, HLA-HD is not run. To enable HLA-HD for class II HLA typing, set this parameter to `true`. A local installation of HLA-HD is required. To get a licensed copy see https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/"
                 },
-                "hlahd_directory": {
+                "hlahd_path": {
                     "type": "string",
-                    "default": "/usr/local/hlahd",
-                    "fa_icon": "fas fa-folder",
-                    "description": "Local installation directory of HLA-HD",
-                    "help_text": "Path to the local installation directory of HLA-HD. Make sure that the directory contains the `bin` folder with the HLA-HD executable and the required reference files and directories`freq_data`, `splitHLA_gene.split.3.50.0.txt` and `dictionary.txt`."
+                    "default": null,
+                    "fa_icon": "fas fa-file-zip-o",
+                    "description": "Tarball file location of HLA-HD software distribution.",
+                    "help_text": "Path to the installation tarball of HLA-HD. You need to provide this tarball to run HLA-HD. Obtain a licensed copy from https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/"
+                },
+                "hlahd_update_dictionary": {
+                    "type": "boolean",
+                    "default": false,
+                    "fa_icon": "fas fa-check",
+                    "description": "Update HLA-HD dictionary to the latest version before running HLA-HD.",
+                    "help_text": "By default, the HLA-HD dictionary is not updated. To update the dictionary to the latest version from the HLA database, set this parameter to `true`. Note that an internet connection is required for updating the dictionary from https://github.com/ANHIG/IMGTHLA/raw/refs/heads/Latest/hla.dat.zip"
                 }
             }
         },
