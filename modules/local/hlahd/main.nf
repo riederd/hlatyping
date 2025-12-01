@@ -20,7 +20,7 @@ process HLAHD {
     task.ext.when == null || task.ext.when
 
     script:
-    def hlahd_p = task.ext.path ? "${task.ext.path}" : ''
+    def hlahd_p = file(params.hlahd_directory).isDirectory() ? "${params.hlahd_directory}/bin" : ''
     def args = task.ext.args ?: ''
     def args2 = task.ext.args2 ?: ''
     def prefix = task.ext.prefix ?: "${meta.id}"
