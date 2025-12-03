@@ -271,7 +271,7 @@ def parse_hlahd_software_meta(hlahd_software_meta) {
         entry.version,
         entry.software_md5,
         file(params.hlahd_path, checkIfExists:true),
-        params.hlahd_update_dictionary,
+        params.hlahd_update_reference_dict,
     ])
     return ch_hlahd_exe
 }
