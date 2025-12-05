@@ -53,10 +53,10 @@ workflow HLATYPING {
 
     take:
     ch_samplesheet // channel: samplesheet read in from --input
-    tools          // parameter: --tools ( comma-separated list of hlatyping tools to run )
     main:
 
     // Validate tools parameter
+    def tools = params.tools ?: 'optitype'
     validate_tools_param(tools)
 
     // HLAHD software metadata JSON file
@@ -191,20 +191,18 @@ workflow HLATYPING {
         //
         // MODULE: Run HLAHD typing
         //
-        if (params.run_hlahd) {
-            if (! file(params.hlahd_path).exists()) {
-                log.warn("The specified HLAHD package archive does not exist: ${params.hlahd_path}")
-                log.warn("Please download HLAHD from https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/ and provide the path to the tarball via the '--hlahd_path' parameter.")
-                log.warn("Skipping HLAHD typing")
-            } else {
-                HLAHD_INSTALL (
-                    parse_hlahd_software_meta(hlahd_software_meta)
-                )
-                HLAHD(
-                    ch_all_fastq.reads.combine(HLAHD_INSTALL.out.hlahd)
-                )
-                ch_versions = ch_versions.mix(HLAHD.out.versions)
-            }
+        if (! file(params.hlahd_path).exists()) {
+            log.warn("The specified HLAHD package archive does not exist: ${params.hlahd_path}")
+            log.warn("Please download HLAHD from https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/ and provide the path to the tarball via the '--hlahd_path' parameter.")
+            log.warn("Skipping HLAHD typing")
+        } else {
+            HLAHD_INSTALL (
+                parse_hlahd_software_meta(hlahd_software_meta)
+            )
+            HLAHD(
+                ch_all_fastq.combine(HLAHD_INSTALL.out.hlahd)
+            )
+            ch_versions = ch_versions.mix(HLAHD.out.versions)
         }
     }
 

@@ -18,7 +18,7 @@ process HLAHD {
     task.ext.when == null || task.ext.when
 
     script:
-    if(hlahd_directory && !file(hlahd_directory).exists()) {
+    if(hlahd_directory && !hlahd_directory.exists()) {
         error "The specified HLAHD directory does not exist: ${hlahd_directory}"
     }
 
