@@ -191,7 +191,7 @@ workflow HLATYPING {
         //
         // MODULE: Run HLAHD typing
         //
-        if (! file(params.hlahd_path).exists()) {
+        if ( params.hlahd_path == null || ! file(params.hlahd_path).exists()) {
             log.warn("The specified HLAHD package archive does not exist: ${params.hlahd_path}")
             log.warn("Please download HLAHD from https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/ and provide the path to the tarball via the '--hlahd_path' parameter.")
             log.warn("Skipping HLAHD typing")
