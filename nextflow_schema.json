@@ -303,6 +303,9 @@
             "$ref": "#/$defs/input_output_options"
         },
         {
+            "$ref": "#/$defs/hlatyping_options"
+        },
+        {
             "$ref": "#/$defs/optitype_optimisation_steps"
         },
         {
