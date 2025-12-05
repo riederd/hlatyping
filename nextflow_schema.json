@@ -38,6 +38,20 @@
                 }
             }
         },
+        "hlatyping_options": {
+            "title": "HLA typing options",
+            "type": "object",
+            "description": "Options for the HLA typing step.",
+            "fa_icon": "fas fa-chart-bar",
+            "properties": {
+                "tools": {
+                    "type": "string",
+                    "default": "optitype",
+                    "help_text": "Specifies the tool(s) to use. Multiple tools can be combined in a list separated by comma.\nAvailable are: `optitype`, `hlahd`.",
+                    "description": "Specifies the hlatyping tool(s) to use."
+                }
+            }
+        },
         "optitype_optimisation_steps": {
             "title": "OptiType Optimisation steps",
             "type": "object",
@@ -80,13 +94,6 @@
             "default": "",
             "fa_icon": "fas fa-cog",
             "properties": {
-                "run_hlahd": {
-                    "type": "boolean",
-                    "default": false,
-                    "fa_icon": "fas fa-check",
-                    "description": "Run HLA-HD for class II HLA typing. Note: A local installation of HLA-HD is required.",
-                    "help_text": "By default, HLA-HD is not run. To enable HLA-HD for class II HLA typing, set this parameter to `true`. A local installation of HLA-HD is required. To get a licensed copy see https://w3.genome.med.kyoto-u.ac.jp/HLA-HD/"
-                },
                 "hlahd_path": {
                     "type": "string",
                     "default": null,

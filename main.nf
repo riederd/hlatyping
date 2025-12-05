@@ -39,6 +39,7 @@ workflow NFCORE_HLATYPING {
 
     take:
     samplesheet // channel: samplesheet read in from --input
+    tools       // parameter: --tools ( comma-separated list of hlatyping tools to run )
 
     main:
 
@@ -47,6 +48,7 @@ workflow NFCORE_HLATYPING {
     //
     HLATYPING (
         samplesheet
+        tools
     )
     emit:
     multiqc_report = HLATYPING.out.multiqc_report // channel: /path/to/multiqc_report.html
@@ -76,7 +78,8 @@ workflow {
     // WORKFLOW: Run main workflow
     //
     NFCORE_HLATYPING (
-        PIPELINE_INITIALISATION.out.samplesheet
+        PIPELINE_INITIALISATION.out.samplesheet,
+        params.tools
     )
     //
     // SUBWORKFLOW: Run completion tasks
